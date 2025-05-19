@@ -1,76 +1,19 @@
-package com.denisindenbom.discordauth.managers;
+package com.denisindenbom.discordauth.units;
 
-import com.denisindenbom.discordauth.units.Account;
-import com.denisindenbom.discordauth.units.LoginConfirmationRequest;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-public class LoginConfirmationRequestManager
+public class LoginConfirmationRequest
 {
-    private final List<LoginConfirmationRequest> requests = new ArrayList<>();
+    private final String id;
+    private final Account account;
 
-    private final long lifeTimeOfRequest;
-
-    public LoginConfirmationRequestManager(long lifeTimeOfRequest)
-    {this.lifeTimeOfRequest = lifeTimeOfRequest;}
-
-    public void registerRequest(LoginConfirmationRequest confirmation)
+    public LoginConfirmationRequest(String id, Account account)
     {
-        synchronized (this.requests)
-        {this.requests.add(confirmation);}
-
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run()
-            {
-                removeRequest(confirmation.getId());
-            }
-        }, lifeTimeOfRequest * 1000);
+        this.id = id;
+        this.account = account;
     }
 
-    public void removeRequest(String id)
-    {
-        synchronized (this.requests)
-        {
-            for (LoginConfirmationRequest loginConfirmationRequest : this.requests)
-            {
-                if (loginConfirmationRequest.getId().equals(id))
-                {
-                    this.requests.remove(loginConfirmationRequest);
-                    break;
-                }
-            }
-        }
-    }
+    public String getId()
+    {return this.id;}
 
-    public boolean accountHasRequest(Account account)
-    {
-        synchronized (this.requests)
-        {
-            for (LoginConfirmationRequest request : this.requests)
-            {
-                if (request.getAccount().getName().equals(account.getName())) return true;
-            }
-        }
-        return false;
-    }
-
-    public LoginConfirmationRequest getLoginConfirmationRequest(String id)
-    {
-        synchronized (this.requests)
-        {
-            for (LoginConfirmationRequest loginConfirmationRequest : this.requests)
-            {
-                if (loginConfirmationRequest.getId().equals(id))
-                {
-                    return loginConfirmationRequest;
-                }
-            }
-        }
-
-        return null;
-    }
+    public Account getAccount()
+    {return this.account;}
 }
