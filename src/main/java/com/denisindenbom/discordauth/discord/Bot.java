@@ -38,6 +38,8 @@ public class Bot
 
     public String sendLoginConfirmRequest(String text, String userId)
     {
+        // Tắt gửi tin nhắn xác thực
+        /*
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         embedBuilder.setTitle("Confirm");
@@ -54,6 +56,8 @@ public class Bot
         }
         catch (Exception ignored)
         {return null;}
+        */
+        return null; // Trả về null để không tạo yêu cầu xác thực
     }
 
     public void sendInfo(String text, String Title, MessageChannel channel)
